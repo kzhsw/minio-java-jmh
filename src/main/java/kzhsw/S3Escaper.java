@@ -54,7 +54,7 @@ public class S3Escaper {
     }
 
     str = ESCAPER.escape(str);
-    StringBuilder encoded = new StringBuilder(str.length() + Math.max(str.length >> 3, 4));
+    StringBuilder encoded = new StringBuilder(str.length() + Math.max(str.length() >> 3, 4));
 
     for (char ch : str.toCharArray()) {
         switch (ch) {
