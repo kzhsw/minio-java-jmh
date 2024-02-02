@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(batchSize = 1000, iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Fork(value = 1)
+@Measurement(batchSize = 2000, iterations = 5, time = 2, timeUnit = TimeUnit.SECONDS)
+@Fork(value = 2)
 public class S3EscaperBenchmark {
 
     public static String[] testStrings = {
