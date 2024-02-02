@@ -1,13 +1,15 @@
 package kzhsw;
 
 import org.openjdk.jmh.annotations.*;
-
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Thread)
+@Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Measurement(batchSize = 1000, iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
+@Fork(value = 1)
 public class S3EscaperBenchmark {
 
-    @Param({
+    public static String[] testStrings = {
         "my-bucket",
         "photos/2024/02/02",
         "file.txt?versionId=3L137",
@@ -20,24 +22,25 @@ public class S3EscaperBenchmark {
         "folder/subfolder/file.txt",
         "special-characters/!$&'()*+,/:;=@[]",
         "emoji/😀😃😄😁😆😅😂🤣",
-        "non-english/こんにちは/안녕하세요",
-        "long-string/" + "a".repeat(1000),
-        "deep-nesting/" + "folder/".repeat(100) + "file"
-    })
-    public String testString;
+        "non-english/こんにちは/안녕하세요"
+    };
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
     public void benchmarkEncode() {
-        S3Escaper.encode(testString);
+        for (String testString : testStrings) {
+            S3Escaper.encode(testString);
+        }
     }
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
     public void benchmarkEncodeOptimized() {
-        S3Escaper.encodeOptimized(testString);
+        for (String testString : testStrings) {
+            S3Escaper.encodeOptimized(testString);
+        }
     }
 
     public static void main(String[] args) throws Exception {
